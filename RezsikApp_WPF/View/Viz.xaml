@@ -1,0 +1,113 @@
+﻿<Page x:Class="RezsikApp_WPF.View.Viz"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:local="clr-namespace:RezsikApp_WPF.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Viz">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Icon:PackIconMaterial Kind="Home"  Style="{StaticResource menuIcon}" Foreground="CadetBlue"/>
+            <TextBlock Text="Főoladal" Style="{StaticResource menuText}" />
+
+        </StackPanel>
+        <Separator Margin="0 80 0 0"  Height="0.8">
+            <Separator.Background>
+                <SolidColorBrush Color="#000000" Opacity="0.40"/>
+            </Separator.Background>
+        </Separator>
+        <!-- Tartalom -->
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <!-- Menü -->
+                <Menu Template="{DynamicResource MenuTemplate1}">
+                    <Button x:Name="rezsik" Click="Rezsik_Click" Style="{StaticResource gridMenuButton}">
+                        <Icon:PackIconMaterial Kind="Database"/>
+                    </Button>
+                    <Button  x:Name="ujrezsi"  Click="ujrezsi_Click" Style="{StaticResource gridMenuButton}" Foreground="Green">
+                        <Icon:PackIconMaterial Kind="Plus"/>
+                    </Button>
+                </Menu>
+                <!-- Adatrács -->
+                <!--  <DataGrid x:Name="dgAdatracs" ItemsSource="{Binding}" Visibility="Hidden"/>-->
+                <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" x:Name="dgAdatracs" ItemsSource="{Binding Source=lista}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" IsReadOnly="True" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <Icon:PackIconMaterial Kind="{Binding tipus}" Width="20" Height="20"  Foreground="{Binding szin}"/>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Óraállás" IsReadOnly="True" Width="*" Binding="{Binding oraallas}"/>
+                        <DataGridTextColumn Header="Fizetendő" IsReadOnly="True" Width="*" Binding="{Binding fizetendo,StringFormat={}{0} Ft}"/>
+                        <DataGridTextColumn Header="Dátum" IsReadOnly="True" Width="*" Binding="{Binding datum , StringFormat=yyyy-MM-dd}"/>
+                        <DataGridTextColumn Header="Felhasználó" IsReadOnly="True" Width="*" Binding="{Binding name}"/>
+
+
+                        <DataGridTemplateColumn Header="Műveletek" IsReadOnly="True" Width="90">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource gridEditButton}">
+                                            <Icon:PackIconMaterial Kind="PencilOffOutline" Style="{StaticResource gridButtonIcon}" />
+                                        </Button>
+                                        <Button Style="{StaticResource gridRemoveButton}" >
+                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+
+
+                <!-- Új rezsi felvétele -->
+                <Grid x:Name="ujRezsi" Visibility="Hidden" Margin="0,10,0,0"
+                DataContext="{Binding}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Számla tipusa :" Grid.Row="0" Grid.Column="0" Style="{StaticResource lbadd}"/>
+                    <ComboBox x:Name="cbSzamlaTipus" ItemsSource="{Binding}" DisplayMemberPath="Irsz"
+Grid.Row="0" Grid.Column="1" Style="{StaticResource cbszamlatipus}"
+
+IsSynchronizedWithCurrentItem="True"/>
+                    <Label Content="Dátum :" Grid.Row="1" Grid.Column="0" Style="{StaticResource lbadd}" />
+                    <DatePicker x:Name="dpDate"  Grid.Row="1" Grid.Column="1" Style="{StaticResource datepicker}" FirstDayOfWeek="Monday" Text="Test"/>
+                    <Label Content="Óraállás :" Grid.Row="2" Grid.Column="0" Style="{StaticResource lbadd}"/>
+                    <TextBox x:Name="tbOraallas" Grid.Row="2" Grid.Column="1"  Style="{StaticResource textBox}"/>
+                    <Label Content="Fizetendő :" Grid.Row="3" Grid.Column="0" Style="{StaticResource lbadd}"/>
+                    <TextBox x:Name="tbFizetendo" Grid.Row="3" Grid.Column="1" Style="{StaticResource textBox}"/>
+                    <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="btUjRezsi" Content="Mentés" Style="{StaticResource pageButton}" Margin="-20 100 0 0"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

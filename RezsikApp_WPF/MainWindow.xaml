@@ -1,0 +1,128 @@
+﻿<Window x:Class="RezsikApp_WPF.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Icon ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:RezsikApp_WPF"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="720" Width="1080"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent"
+        >
+    <Border Background="#eff2f7" CornerRadius="20" MouseDown="Border_MouseDown">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Bal oladli Menü-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Background="#FF2E2B94" CornerRadius="15 100 0 15">
+                    <DockPanel>
+                        <!--Felhasználó képe-->
+                        <Border Width="80" Height="80" Padding="3" Background="White" CornerRadius="100"
+                                DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0 20 10 0">
+
+                            <Ellipse>
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="C:\Users\virag\source\repos\Rezsi\Kepek\userlogo.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+
+                        </Border>
+                        <!--App neve-->
+                        <TextBlock Text="Rezsi Követő" Foreground="White" FontSize="22" FontWeight="SemiBold"
+                                   DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10"/>
+                        <!--Felhasználó neve-->
+                        <TextBlock x:Name="userLabel" Text="UserName" Foreground="#FFD8DBFF" FontSize="14" FontWeight="SemiBold"
+                                   DockPanel.Dock="Top" TextAlignment="Center" />
+
+                        <Separator Margin="20 10  20 20" DockPanel.Dock="Top" Height="2" Background="#22CDD9EC"/>
+
+                        <!--Oldal gombok-->
+                        <StackPanel DockPanel.Dock="Top">
+                            <Button Style="{StaticResource sideButton}" Click="FooldalClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="HomeVariant" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Text="Kezdőlap" />
+                                </StackPanel>
+
+                            </Button>
+
+                            <Button Style="{StaticResource sideButton}" Click="AramClick" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Flash" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Text="Áram" />
+                                </StackPanel>
+
+                            </Button>
+
+                            <Button Style="{StaticResource sideButton}" Click="GazClick"  >
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="GasStation" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Text="Gáz" />
+                                </StackPanel>
+
+                            </Button>
+
+                            <Button Style="{StaticResource sideButton}" Click="VizClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Water" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Text="Víz" />
+                                </StackPanel>
+
+                            </Button>
+
+                            <Button Style="{StaticResource sideButton}" Click="EgyebbClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="More" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Text="Egyébb" />
+                                </StackPanel>
+                            </Button>
+
+
+
+                        </StackPanel>
+
+
+                        <Button Style="{StaticResource sideButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20" Click="KilepesClick">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="ExitToApp" Style="{StaticResource menuButtonIcon}" />
+                                <TextBlock Text="Kilépés" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource sideButton}"  VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20" Click="BeallitasClick">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Wrench" Style="{StaticResource menuButtonIcon}" />
+                                <TextBlock Text="Beállítások" />
+                            </StackPanel>
+                        </Button>
+
+
+
+
+                    </DockPanel>
+                </Border>
+            </Grid>
+
+            <!--Fő menü-->
+            <Grid Grid.Column="1" Margin="30,20,-570,0">
+                <Frame x:Name="Main" 
+                       NavigationUIVisibility="Hidden" Margin="-16,0,0,0"
+                       />
+
+            </Grid>
+
+
+        </Grid>
+    </Border>
+
+</Window>

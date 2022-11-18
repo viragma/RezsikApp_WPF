@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="48f95879fd1748fbb6771a9b307c1af0" Name="Diagram1" DisplayType="true" >
+        <EntityTypeShape EntityType="ResziModel.Felhasznalo" Width="1.5" PointX="3.625" PointY="4.125" />
+        <EntityTypeShape EntityType="ResziModel.Rezsi" Width="1.5" PointX="6.375" PointY="4.125" />
+        <EntityTypeShape EntityType="ResziModel.Tipus" Width="1.5" PointX="9" PointY="4.375" />
+        <AssociationConnector Association="ResziModel.FelhasznaloRezsi" />
+        <AssociationConnector Association="ResziModel.RezsiTipus" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
