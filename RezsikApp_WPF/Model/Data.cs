@@ -15,8 +15,9 @@ namespace RezsikApp_WPF.Model
     {
         public List<Rezsi> rezsik;
         private ResziModelContainer rezsikDBContainer;
-        public struct viewType { 
-            public string icon; 
+        public struct viewType
+        {
+            public string icon;
             public string color;
             public PackIconMaterialKind iconPack;
             public SolidColorBrush colorPack;
@@ -24,13 +25,14 @@ namespace RezsikApp_WPF.Model
 
         public Data()
         {
-            rezsik = new List<Rezsi>();
-            rezsikDBContainer = new ResziModelContainer();
+           
         }
 
         //Összes Rezsi adat lekérdezése és Rezsi tipusu listába betöltés a megjelenítéshez.
         public List<Rezsi> getalldata()
         {
+            rezsik = new List<Rezsi>();
+            rezsikDBContainer = new ResziModelContainer();
             //Adatok lekérése
             var er = (from x in rezsikDBContainer.RezsikSet
                       select new { x.Rid, x.Tipusok.Tipus_Nev, x.Fizetendo, x.Oraallas, x.Datum, x.Felhasznalok.Felh_Nev }).ToList();
@@ -44,13 +46,15 @@ namespace RezsikApp_WPF.Model
         //Paraméteres lekérdezés a Tipus neve alapján lekérdezi az abba tartozó rezsiket
         public List<Rezsi> getdata(string rtipus)
         {
+            rezsik = new List<Rezsi>();
+            rezsikDBContainer = new ResziModelContainer();
             var er = (from x in rezsikDBContainer.RezsikSet
                       where x.Tipusok.Tipus_Nev == rtipus
                       select new { x.Rid, x.Tipusok.Tipus_Nev, x.Fizetendo, x.Oraallas, x.Datum, x.Felhasznalok.Felh_Nev }).ToList();
             viewType ic = setIconColor(rtipus);
             foreach (var x in er)
             {
-               rezsik.Add(new Rezsi(x.Rid, x.Oraallas, x.Fizetendo, x.Datum, x.Felh_Nev, ic.icon, ic.color));
+               rezsik.Add(new Rezsi(x.Rid, x.Oraallas, x.Fizetendo, x.Datum, x.Felh_Nev, ic.icon.ToString(), ic.color.ToString()));
 
             }
             return rezsik;

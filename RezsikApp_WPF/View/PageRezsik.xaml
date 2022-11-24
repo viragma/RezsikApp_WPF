@@ -20,8 +20,8 @@
         </Grid.RowDefinitions>
         <!-- Fejléc -->
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0,0,0,354" Grid.RowSpan="2">
-            <Icon:PackIconMaterial  x:Name="icFejlec" Kind="Flash"  Style="{StaticResource menuIcon}"  Foreground="Green"/>
-            <TextBlock x:Name ="tbFejlec" Text="Home" Style="{StaticResource menuText}" />
+            <Icon:PackIconMaterial  x:Name="icFejlec"   Style="{StaticResource menuIcon}" />
+            <TextBlock x:Name ="tbFejlec"  Style="{StaticResource menuText}" />
 
         </StackPanel>
         <!-- Vonal -->

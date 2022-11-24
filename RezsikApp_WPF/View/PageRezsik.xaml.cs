@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure.MappingViews;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,11 +24,12 @@ namespace RezsikApp_WPF.View
     public partial class PageRezsik : Page
     {
         private ResziModelContainer rezsi;
-        private Data adatok;
+        private Data adatok;       
         private string pr;
         public PageRezsik(string pageRezsi)
         {
-            this.pr=pageRezsi;
+            rezsi = new ResziModelContainer();
+            this.pr=pageRezsi;       
             InitializeComponent();
             adatok = new Data();
             Lekerdezes(pr);
@@ -35,23 +37,25 @@ namespace RezsikApp_WPF.View
         //Konstruktor által kapott menu adatok lekérdezése
         private void Lekerdezes(string pr)
         {
+            List<Rezsi> lista = new List<Rezsi>();
             tbFejlec.Text = pr;
-            List<Rezsi> lista;
+            
             if (pr == "Home")
             {
+                
                 //Kezdő képenyőn minden adat látható
                 lista = adatok.getalldata();
                 icFejlec.Foreground = Brushes.MediumPurple;
                 icFejlec.Kind = PackIconMaterialKind.Home;
-                
+
             }
             else
             {
                 var iconS = adatok.setIconColor(pr);
                 icFejlec.Kind = iconS.iconPack;
                 icFejlec.Foreground = iconS.colorPack;
-                //Adott menüre szürt lekérdezés
-                lista = adatok.getdata(pr);
+                // Adott menüre szürt lekérdezés
+                 lista = adatok.getdata(pr);
              
             }
             dgAdatracs.Visibility = Visibility.Visible;
@@ -96,7 +100,6 @@ namespace RezsikApp_WPF.View
         //Módosítás mentése
         private void btModRezsi_Click(object sender, RoutedEventArgs e)
         {
-            ResziModelContainer rezsi = new ResziModelContainer();
             Rezsi r = dgAdatracs.SelectedItem as Rezsi;
             Int32 id = r.id;
             Rezsik mr = rezsi.RezsikSet.SingleOrDefault(x => x.Rid == id);
@@ -110,7 +113,6 @@ namespace RezsikApp_WPF.View
         private void btNewRezsi_Click(object sender, RoutedEventArgs e)
         {
             Int32 tid = cbSzamlaTipus.SelectedIndex + 1;
-            ResziModelContainer rezsi = new ResziModelContainer();
             var ti = (from t in rezsi.TipusokSet
                       where t.Tid == tid
                       select t).Single();
@@ -128,12 +130,12 @@ namespace RezsikApp_WPF.View
             };
             rezsi.RezsikSet.Add(ujRezsi);
             rezsi.SaveChanges();
+
             Lekerdezes(pr);
         }
         //Kivánt sor törlése
         public void btRemove_Click(object sender, RoutedEventArgs e)
         {
-            ResziModelContainer rezsi = new ResziModelContainer();
             Rezsi r = dgAdatracs.SelectedItem as Rezsi;
             Int32 id = r.id;
             var er = (from x in rezsi.RezsikSet
