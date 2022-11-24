@@ -12,11 +12,18 @@ namespace RezsikApp_WPF.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Tipus
+    public partial class Tipusok
     {
-        public int Tid { get; set; }
-        public string T_Nev { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Tipusok()
+        {
+            this.Rezsik = new HashSet<Rezsik>();
+        }
     
-        public virtual Rezsi Rezsi { get; set; }
+        public int Tid { get; set; }
+        public string Tipus_Nev { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rezsik> Rezsik { get; set; }
     }
 }

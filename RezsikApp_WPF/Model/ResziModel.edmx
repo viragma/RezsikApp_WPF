@@ -6,19 +6,30 @@
     <edmx:StorageModels>
     <Schema Namespace="ResziModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="ResziModelStoreContainer">
-    <EntitySet Name="Felhasznalok" EntityType="ResziModel.Store.Felhasznalok" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Rezsik" EntityType="ResziModel.Store.Rezsik" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Tipusok" EntityType="ResziModel.Store.Tipusok" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FelhasznaloRezsi" Association="ResziModel.Store.FelhasznaloRezsi">
-      <End Role="Felhasznalo" EntitySet="Felhasznalok" />
-      <End Role="Rezsi" EntitySet="Rezsik" />
+    <EntitySet Name="RezsikSet" EntityType="ResziModel.Store.RezsikSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FelhasznalokSet" EntityType="ResziModel.Store.FelhasznalokSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TipusokSet" EntityType="ResziModel.Store.TipusokSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RezsikFelhasznalok" Association="ResziModel.Store.RezsikFelhasznalok">
+      <End Role="Rezsik" EntitySet="RezsikSet" />
+      <End Role="Felhasznalok" EntitySet="FelhasznalokSet" />
     </AssociationSet>
-    <AssociationSet Name="RezsiTipus" Association="ResziModel.Store.RezsiTipus">
-      <End Role="Rezsi" EntitySet="Rezsik" />
-      <End Role="Tipus" EntitySet="Tipusok" />
+    <AssociationSet Name="TipusokRezsik" Association="ResziModel.Store.TipusokRezsik">
+      <End Role="Tipusok" EntitySet="TipusokSet" />
+      <End Role="Rezsik" EntitySet="RezsikSet" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="Felhasznalok">
+  <EntityType Name="RezsikSet">
+    <Key>
+      <PropertyRef Name="Rid" />
+    </Key>
+    <Property Name="Rid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Oraallas" Type="float" Nullable="false" />
+    <Property Name="Fizetendo" Type="float" Nullable="false" />
+    <Property Name="Datum" Type="datetime" Nullable="false" />
+    <Property Name="Felhasznalok_Fid" Type="int" Nullable="false" />
+    <Property Name="Tipusok_Tid" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FelhasznalokSet">
     <Key>
       <PropertyRef Name="Fid" />
     </Key>
@@ -28,45 +39,34 @@
     <Property Name="Felh_Nev" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Jelszo" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Rezsik">
-    <Key>
-      <PropertyRef Name="Rid" />
-    </Key>
-    <Property Name="Rid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Oraallas" Type="float" Nullable="false" />
-    <Property Name="Fizetendo" Type="float" Nullable="false" />
-    <Property Name="Datum" Type="datetime" Nullable="false" />
-    <Property Name="FelhasznaloFid" Type="int" Nullable="false" />
-    <Property Name="Tipus_Tid" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Tipusok">
+  <EntityType Name="TipusokSet">
     <Key>
       <PropertyRef Name="Tid" />
     </Key>
     <Property Name="Tid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="T_Nev" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tipus_Nev" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="FelhasznaloRezsi">
-    <End Role="Felhasznalo" Type="ResziModel.Store.Felhasznalok" Multiplicity="1" />
-    <End Role="Rezsi" Type="ResziModel.Store.Rezsik" Multiplicity="*" />
+  <Association Name="RezsikFelhasznalok">
+    <End Role="Rezsik" Type="ResziModel.Store.RezsikSet" Multiplicity="*" />
+    <End Role="Felhasznalok" Type="ResziModel.Store.FelhasznalokSet" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="Felhasznalo">
+      <Principal Role="Felhasznalok">
         <PropertyRef Name="Fid" />
       </Principal>
-      <Dependent Role="Rezsi">
-        <PropertyRef Name="FelhasznaloFid" />
+      <Dependent Role="Rezsik">
+        <PropertyRef Name="Felhasznalok_Fid" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="RezsiTipus">
-    <End Role="Rezsi" Type="ResziModel.Store.Rezsik" Multiplicity="*" />
-    <End Role="Tipus" Type="ResziModel.Store.Tipusok" Multiplicity="1" />
+  <Association Name="TipusokRezsik">
+    <End Role="Tipusok" Type="ResziModel.Store.TipusokSet" Multiplicity="1" />
+    <End Role="Rezsik" Type="ResziModel.Store.RezsikSet" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Tipus">
+      <Principal Role="Tipusok">
         <PropertyRef Name="Tid" />
       </Principal>
-      <Dependent Role="Rezsi">
-        <PropertyRef Name="Tipus_Tid" />
+      <Dependent Role="Rezsik">
+        <PropertyRef Name="Tipusok_Tid" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -75,64 +75,55 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ResziModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="ResziModelContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Felhasznalok" EntityType="ResziModel.Felhasznalo" />
-          <EntitySet Name="Rezsik" EntityType="ResziModel.Rezsi" />
-          <EntitySet Name="Tipusok" EntityType="ResziModel.Tipus" />
-          <AssociationSet Name="FelhasznaloRezsi" Association="ResziModel.FelhasznaloRezsi">
-            <End Role="Felhasznalo" EntitySet="Felhasznalok" />
-            <End Role="Rezsi" EntitySet="Rezsik" />
+          <EntitySet Name="RezsikSet" EntityType="ResziModel.Rezsik" />
+          <EntitySet Name="FelhasznalokSet" EntityType="ResziModel.Felhasznalok" />
+          <EntitySet Name="TipusokSet" EntityType="ResziModel.Tipusok" />
+          <AssociationSet Name="RezsikFelhasznalok" Association="ResziModel.RezsikFelhasznalok">
+            <End Role="Rezsik" EntitySet="RezsikSet" />
+            <End Role="Felhasznalok" EntitySet="FelhasznalokSet" />
           </AssociationSet>
-          <AssociationSet Name="RezsiTipus" Association="ResziModel.RezsiTipus">
-            <End Role="Rezsi" EntitySet="Rezsik" />
-            <End Role="Tipus" EntitySet="Tipusok" />
+          <AssociationSet Name="TipusokRezsik" Association="ResziModel.TipusokRezsik">
+            <End Role="Tipusok" EntitySet="TipusokSet" />
+            <End Role="Rezsik" EntitySet="RezsikSet" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Felhasznalo">
-          <Key>
-            <PropertyRef Name="Fid" />
-          </Key>
-          <Property Name="Fid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="V_Nev" Type="String" Nullable="false" />
-          <Property Name="K_Nev" Type="String" Nullable="false" />
-          <Property Name="Felh_Nev" Type="String" Nullable="false" />
-          <Property Name="Jelszo" Type="String" Nullable="false" />
-          <NavigationProperty Name="Rezsi" Relationship="ResziModel.FelhasznaloRezsi" FromRole="Felhasznalo" ToRole="Rezsi" />
-        </EntityType>
-        <EntityType Name="Rezsi">
+          </EntityContainer>
+        <EntityType Name="Rezsik">
           <Key>
             <PropertyRef Name="Rid" />
           </Key>
           <Property Name="Rid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Oraallas" Type="Double" Nullable="false" />
           <Property Name="Fizetendo" Type="Double" Nullable="false" />
-          <Property Name="Datum" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="Felhasznalo" Relationship="ResziModel.FelhasznaloRezsi" FromRole="Rezsi" ToRole="Felhasznalo" />
-          <Property Name="FelhasznaloFid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Tipus" Relationship="ResziModel.RezsiTipus" FromRole="Rezsi" ToRole="Tipus" />
+          <Property Name="Datum" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Felhasznalok" Relationship="ResziModel.RezsikFelhasznalok" FromRole="Rezsik" ToRole="Felhasznalok" />
+          <NavigationProperty Name="Tipusok" Relationship="ResziModel.TipusokRezsik" FromRole="Rezsik" ToRole="Tipusok" />
         </EntityType>
-        <EntityType Name="Tipus">
+        <EntityType Name="Felhasznalok">
+          <Key>
+            <PropertyRef Name="Fid" />
+          </Key>
+          <Property Name="Fid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="V_Nev" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="K_Nev" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Felh_Nev" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Jelszo" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Rezsik" Relationship="ResziModel.RezsikFelhasznalok" FromRole="Felhasznalok" ToRole="Rezsik" />
+        </EntityType>
+        <EntityType Name="Tipusok">
           <Key>
             <PropertyRef Name="Tid" />
           </Key>
           <Property Name="Tid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="T_Nev" Type="String" Nullable="false" />
-          <NavigationProperty Name="Rezsi" Relationship="ResziModel.RezsiTipus" FromRole="Tipus" ToRole="Rezsi" />
+          <Property Name="Tipus_Nev" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Rezsik" Relationship="ResziModel.TipusokRezsik" FromRole="Tipusok" ToRole="Rezsik" />
         </EntityType>
-        <Association Name="FelhasznaloRezsi">
-          <End Type="ResziModel.Felhasznalo" Role="Felhasznalo" Multiplicity="1" />
-          <End Type="ResziModel.Rezsi" Role="Rezsi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Felhasznalo">
-              <PropertyRef Name="Fid" />
-            </Principal>
-            <Dependent Role="Rezsi">
-              <PropertyRef Name="FelhasznaloFid" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="RezsikFelhasznalok">
+          <End Type="ResziModel.Rezsik" Role="Rezsik" Multiplicity="*" />
+          <End Type="ResziModel.Felhasznalok" Role="Felhasznalok" Multiplicity="1" />
         </Association>
-        <Association Name="RezsiTipus">
-          <End Type="ResziModel.Rezsi" Role="Rezsi" Multiplicity="1" />
-          <End Type="ResziModel.Tipus" Role="Tipus" Multiplicity="1" />
+        <Association Name="TipusokRezsik">
+          <End Type="ResziModel.Tipusok" Role="Tipusok" Multiplicity="1" />
+          <End Type="ResziModel.Rezsik" Role="Rezsik" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -140,9 +131,19 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ResziModelStoreContainer" CdmEntityContainer="ResziModelContainer">
-    <EntitySetMapping Name="Felhasznalok">
-      <EntityTypeMapping TypeName="IsTypeOf(ResziModel.Felhasznalo)">
-        <MappingFragment StoreEntitySet="Felhasznalok">
+    <EntitySetMapping Name="RezsikSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ResziModel.Rezsik)">
+        <MappingFragment StoreEntitySet="RezsikSet">
+          <ScalarProperty Name="Rid" ColumnName="Rid" />
+          <ScalarProperty Name="Oraallas" ColumnName="Oraallas" />
+          <ScalarProperty Name="Fizetendo" ColumnName="Fizetendo" />
+          <ScalarProperty Name="Datum" ColumnName="Datum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FelhasznalokSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ResziModel.Felhasznalok)">
+        <MappingFragment StoreEntitySet="FelhasznalokSet">
           <ScalarProperty Name="Fid" ColumnName="Fid" />
           <ScalarProperty Name="V_Nev" ColumnName="V_Nev" />
           <ScalarProperty Name="K_Nev" ColumnName="K_Nev" />
@@ -151,30 +152,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Rezsik">
-      <EntityTypeMapping TypeName="IsTypeOf(ResziModel.Rezsi)">
-        <MappingFragment StoreEntitySet="Rezsik">
-          <ScalarProperty Name="Rid" ColumnName="Rid" />
-          <ScalarProperty Name="Oraallas" ColumnName="Oraallas" />
-          <ScalarProperty Name="Fizetendo" ColumnName="Fizetendo" />
-          <ScalarProperty Name="Datum" ColumnName="Datum" />
-          <ScalarProperty Name="FelhasznaloFid" ColumnName="FelhasznaloFid" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Tipusok">
-      <EntityTypeMapping TypeName="IsTypeOf(ResziModel.Tipus)">
-        <MappingFragment StoreEntitySet="Tipusok">
+    <EntitySetMapping Name="TipusokSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ResziModel.Tipusok)">
+        <MappingFragment StoreEntitySet="TipusokSet">
           <ScalarProperty Name="Tid" ColumnName="Tid" />
-          <ScalarProperty Name="T_Nev" ColumnName="T_Nev" />
+          <ScalarProperty Name="Tipus_Nev" ColumnName="Tipus_Nev" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="RezsiTipus" TypeName="ResziModel.RezsiTipus" StoreEntitySet="Rezsik">
-      <EndProperty Name="Tipus">
-        <ScalarProperty Name="Tid" ColumnName="Tipus_Tid" />
+    <AssociationSetMapping Name="RezsikFelhasznalok" TypeName="ResziModel.RezsikFelhasznalok" StoreEntitySet="RezsikSet">
+      <EndProperty Name="Felhasznalok">
+        <ScalarProperty Name="Fid" ColumnName="Felhasznalok_Fid" />
       </EndProperty>
-      <EndProperty Name="Rezsi">
+      <EndProperty Name="Rezsik">
+        <ScalarProperty Name="Rid" ColumnName="Rid" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TipusokRezsik" TypeName="ResziModel.TipusokRezsik" StoreEntitySet="RezsikSet">
+      <EndProperty Name="Tipusok">
+        <ScalarProperty Name="Tid" ColumnName="Tipusok_Tid" />
+      </EndProperty>
+      <EndProperty Name="Rezsik">
         <ScalarProperty Name="Rid" ColumnName="Rid" />
       </EndProperty>
     </AssociationSetMapping>
@@ -194,6 +192,7 @@
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

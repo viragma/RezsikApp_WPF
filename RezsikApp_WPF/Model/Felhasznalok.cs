@@ -12,12 +12,12 @@ namespace RezsikApp_WPF.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Felhasznalo
+    public partial class Felhasznalok
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Felhasznalo()
+        public Felhasznalok()
         {
-            this.Rezsi = new HashSet<Rezsi>();
+            this.Rezsik = new HashSet<Rezsik>();
         }
     
         public int Fid { get; set; }
@@ -27,6 +27,6 @@ namespace RezsikApp_WPF.Model
         public string Jelszo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rezsi> Rezsi { get; set; }
+        public virtual ICollection<Rezsik> Rezsik { get; set; }
     }
 }

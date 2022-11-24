@@ -25,8 +25,8 @@ namespace RezsikApp_WPF.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Felhasznalo> Felhasznalok { get; set; }
-        public virtual DbSet<Rezsi> Rezsik { get; set; }
-        public virtual DbSet<Tipus> Tipusok { get; set; }
+        public virtual DbSet<Rezsik> RezsikSet { get; set; }
+        public virtual DbSet<Felhasznalok> FelhasznalokSet { get; set; }
+        public virtual DbSet<Tipusok> TipusokSet { get; set; }
     }
 }

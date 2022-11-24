@@ -8,7 +8,7 @@
     <Application.Resources>
        
     
-        <!--DataGrid-->
+        <!--DataGrid kinézet-->
         
         <ControlTemplate x:Key="MenuTemplate1" TargetType="{x:Type Menu}">
             <Border  Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
@@ -213,7 +213,9 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-
+        
+        
+        <!--Gombok / Iconok / Bevitelimezők kinézet-->
         <Style x:Key="gridEditButton" TargetType="Button">
             <Setter Property="Background" Value="#512da8"/>
             <Setter Property="BorderBrush" Value="#4a148c"/>
@@ -396,5 +398,6 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="0 10"/>
         </Style>
+        
     </Application.Resources>
 </Application>

@@ -17,24 +17,23 @@ using System.Windows.Shapes;
 
 namespace RezsikApp_WPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+  
     public partial class MainWindow : Window
     {
         private ResziModelContainer rezsikDBContainer;
         public MainWindow()
         {
             InitializeComponent();
+            Main.Content = new View.PageRezsik("Home");
             rezsikDBContainer = new ResziModelContainer();
             userLekerdezes();
         }
-
+        //Bejelentkezés hiánya miatt.
         private void userLekerdezes()
         {
             try
             {
-                var er = (from x in rezsikDBContainer.Felhasznalok
+                var er = (from x in rezsikDBContainer.FelhasznalokSet
                           where x.Felh_Nev == "admin"
                           select new
                           {
@@ -52,6 +51,7 @@ namespace RezsikApp_WPF
                 Console.WriteLine(ex.ToString());
             }
         }
+        //Ablak mozgatása
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -59,59 +59,18 @@ namespace RezsikApp_WPF
                 this.DragMove();
             }
         }
-
-        private bool IsMaxmimized = false;
-      /*  private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //Adott gomb nevét át adja az osztálynak ami az alapján kéri le az adatokat.
+        private void PageSelectClick(object sender, RoutedEventArgs e)
         {
-            if (e.ClickCount == 2)
-            {
-                if (IsMaxmimized)
-                {
-                    this.WindowState = WindowState.Normal;
-                    this.Width = 1080;
-                    this.Height = 720;
-
-                    IsMaxmimized = false;
-                }
-                else
-                {
-                    this.WindowState = WindowState.Maximized;
-                    IsMaxmimized = true;
-                }
-
-            }
-        }*/
-
-        private void FooldalClick(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new View.Fooldal();
+            string content = (sender as Button).Name.ToString();
+            Main.Content = new View.PageRezsik(content);
         }
-
-        private void AramClick(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new View.Aram();
-        }
-
-        private void GazClick(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new View.Gaz();
-        }
-
-        private void VizClick(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new View.Viz();
-        }
-
-        private void EgyebbClick(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new View.Egyebb();
-        }
-
+        //Beállítások menű betöltése
         private void BeallitasClick(object sender, RoutedEventArgs e)
         {
             Main.Content = new View.Beallitasok();
         }
-
+        //Kilépés
         private void KilepesClick(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();

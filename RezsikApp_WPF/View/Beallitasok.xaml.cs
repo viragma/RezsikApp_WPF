@@ -15,7 +15,8 @@ using System.Windows.Shapes;
 
 namespace RezsikApp_WPF.View
 {
-
+    //Beállítások jelszó,kép menü színe 
+    //Nincs idő rá
     public partial class Beallitasok : Page
     {
         

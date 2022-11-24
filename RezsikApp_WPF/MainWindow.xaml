@@ -48,7 +48,7 @@
 
                         <!--Oldal gombok-->
                         <StackPanel DockPanel.Dock="Top">
-                            <Button Style="{StaticResource sideButton}" Click="FooldalClick">
+                            <Button x:Name="Home" Style="{StaticResource sideButton}" Click="PageSelectClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="HomeVariant" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Text="Kezdőlap" />
@@ -56,7 +56,7 @@
 
                             </Button>
 
-                            <Button Style="{StaticResource sideButton}" Click="AramClick" >
+                            <Button x:Name="Aram" Style="{StaticResource sideButton}" Click="PageSelectClick" >
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Flash" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Text="Áram" />
@@ -64,7 +64,7 @@
 
                             </Button>
 
-                            <Button Style="{StaticResource sideButton}" Click="GazClick"  >
+                            <Button x:Name="Gaz" Style="{StaticResource sideButton}" Click="PageSelectClick"  >
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="GasStation" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Text="Gáz" />
@@ -72,7 +72,7 @@
 
                             </Button>
 
-                            <Button Style="{StaticResource sideButton}" Click="VizClick">
+                            <Button x:Name="Viz" Style="{StaticResource sideButton}" Click="PageSelectClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Water" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Text="Víz" />
@@ -80,7 +80,7 @@
 
                             </Button>
 
-                            <Button Style="{StaticResource sideButton}" Click="EgyebbClick">
+                            <Button x:Name="Egyebb" Style="{StaticResource sideButton}" Click="PageSelectClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="More" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Text="Egyébb" />
@@ -113,12 +113,11 @@
                 </Border>
             </Grid>
 
-            <!--Fő menü-->
+            <!--Kontent felület-->
             <Grid Grid.Column="1" Margin="30,20,-570,0">
                 <Frame x:Name="Main" 
                        NavigationUIVisibility="Hidden" Margin="-16,0,0,0"
                        />
-
             </Grid>
 
 

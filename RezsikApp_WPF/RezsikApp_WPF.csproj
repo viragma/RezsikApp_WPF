@@ -75,7 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Data.cs" />
-    <Compile Include="Model\Felhasznalo.cs">
+    <Compile Include="Model\Felhasznalok.cs">
       <DependentUpon>ResziModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ResziModel.Context.cs">
@@ -93,31 +93,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResziModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\Rezsi.cs">
+    <Compile Include="Model\Rezsi.cs" />
+    <Compile Include="Model\Rezsik.cs">
       <DependentUpon>ResziModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Rezsik.cs" />
-    <Compile Include="Model\Tip.cs" />
-    <Compile Include="Model\Tipus.cs">
+    <Compile Include="Model\Tipusok.cs">
       <DependentUpon>ResziModel.tt</DependentUpon>
     </Compile>
     <Compile Include="View\Beallitasok.xaml.cs">
       <DependentUpon>Beallitasok.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Egyebb.xaml.cs">
-      <DependentUpon>Egyebb.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Fooldal.xaml.cs">
-      <DependentUpon>Fooldal.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Viz.xaml.cs">
-      <DependentUpon>Viz.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Gaz.xaml.cs">
-      <DependentUpon>Gaz.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Aram.xaml.cs">
-      <DependentUpon>Aram.xaml</DependentUpon>
+    <Compile Include="View\PageRezsik.xaml.cs">
+      <DependentUpon>PageRezsik.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -135,23 +122,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Egyebb.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Fooldal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Viz.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Gaz.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Aram.xaml">
+    <Page Include="View\PageRezsik.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

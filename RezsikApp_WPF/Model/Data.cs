@@ -1,90 +1,94 @@
-﻿using System;
+﻿using MahApps.Metro.IconPacks;
+using System;
 using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace RezsikApp_WPF.Model
 {
-    //public Rezsik(int id, double oraallas, double fizetendo, DateTime datum, string name, string tipus = "Egyebb")
+    //Osztály a lekérdezések egyszerűségért
     internal class Data
     {
-        public List<Rezsik> rezsik;
-        public List<Tip> rezsiTipus;
+        public List<Rezsi> rezsik;
         private ResziModelContainer rezsikDBContainer;
+        public struct viewType { 
+            public string icon; 
+            public string color;
+            public PackIconMaterialKind iconPack;
+            public SolidColorBrush colorPack;
+        }
 
-        public List<Rezsik> getalldata()
+        public Data()
         {
-            rezsik = new List<Rezsik> ();
+            rezsik = new List<Rezsi>();
             rezsikDBContainer = new ResziModelContainer();
-            var er = (from x in rezsikDBContainer.Rezsik
-                      select new { x.Rid, x.Tipus.T_Nev, x.Fizetendo, x.Oraallas, x.Datum, x.Felhasznalo.Felh_Nev }).ToList();
-            string t, sz;
+        }
+
+        //Összes Rezsi adat lekérdezése és Rezsi tipusu listába betöltés a megjelenítéshez.
+        public List<Rezsi> getalldata()
+        {
+            //Adatok lekérése
+            var er = (from x in rezsikDBContainer.RezsikSet
+                      select new { x.Rid, x.Tipusok.Tipus_Nev, x.Fizetendo, x.Oraallas, x.Datum, x.Felhasznalok.Felh_Nev }).ToList();
             foreach (var x in er)
             {
-                switch (x.T_Nev)
-                {
-                    case "Aram":
-                        t = "Flash";
-                        sz = "Yellowgreen";
-                        break;
-                    case "Viz":
-                        t = "Water";
-                        sz = "blue";
-                        break;
-                    case "Gaz":
-                        t = "GasStation";
-                        sz = "Tan";
-                        break;
-                    default:
-                        t = "More";
-                        sz = "Red";
-                        break;
-                }
-               
-                
-                rezsik.Add(new Rezsik(x.Rid, x.Oraallas, x.Fizetendo, x.Datum, x.Felh_Nev, t,sz));
-                
+                viewType ic =setIconColor(x.Tipus_Nev);
+                rezsik.Add(new Rezsi(x.Rid, x.Oraallas, x.Fizetendo, x.Datum, x.Felh_Nev, ic.icon,ic.color));               
             }
             return rezsik;
         }
-        public List<Rezsik> getdata(string rtipus)
+        //Paraméteres lekérdezés a Tipus neve alapján lekérdezi az abba tartozó rezsiket
+        public List<Rezsi> getdata(string rtipus)
         {
-            rezsik = new List<Rezsik>();
-            rezsikDBContainer = new ResziModelContainer();
-            var er = (from x in rezsikDBContainer.Rezsik
-                      where x.Tipus.T_Nev == rtipus
-                      select new { x.Rid, x.Tipus.T_Nev, x.Fizetendo, x.Oraallas, x.Datum, x.Felhasznalo.Felh_Nev }).ToList();
-            string t, sz;
+            var er = (from x in rezsikDBContainer.RezsikSet
+                      where x.Tipusok.Tipus_Nev == rtipus
+                      select new { x.Rid, x.Tipusok.Tipus_Nev, x.Fizetendo, x.Oraallas, x.Datum, x.Felhasznalok.Felh_Nev }).ToList();
+            viewType ic = setIconColor(rtipus);
             foreach (var x in er)
             {
-                switch (x.T_Nev)
-                {
-                    case "Aram":
-                        t = "Flash";
-                        sz = "Yellowgreen";
-                        break;
-                    case "Viz":
-                        t = "Water";
-                        sz = "blue";
-                        break;
-                    case "Gaz":
-                        t = "GasStation";
-                        sz = "Tan";
-                        break;
-                    default:
-                        t = "More";
-                        sz = "Red";
-                        break;
-                }
-
-
-                rezsik.Add(new Rezsik(x.Rid, x.Oraallas, x.Fizetendo, x.Datum, x.Felh_Nev, t, sz));
+               rezsik.Add(new Rezsi(x.Rid, x.Oraallas, x.Fizetendo, x.Datum, x.Felh_Nev, ic.icon, ic.color));
 
             }
             return rezsik;
         }
+        //Tipus alapján kiválasztja melyik icon és szín kell
+        public viewType setIconColor(string rtype)
+        {
+            viewType t;
+            switch (rtype)
+            {
+                case "Aram":
+                    t.icon = "Flash";
+                    t.color = "Yellowgreen";
+                    t.iconPack = PackIconMaterialKind.Flash;
+                    t.colorPack = Brushes.YellowGreen;
+                    break;
+                case "Viz":
+                    t.icon = "Water";
+                    t.color = "blue";
+                    t.iconPack = PackIconMaterialKind.Water;
+                    t.colorPack = Brushes.Blue;
+                    break;
+                case "Gaz":
+                    t.icon = "GasStation";
+                    t.color = "Tan";
+                    t.iconPack = PackIconMaterialKind.GasStation;
+                    t.colorPack = Brushes.Tan;
+                    break;
+                default:
+                    t.icon = "More";
+                    t.color = "Red";
+                    t.iconPack = PackIconMaterialKind.More;
+                    t.colorPack = Brushes.Red;
+                    break;
+            }
+            return t;
+        }
+
 
     }
 }
